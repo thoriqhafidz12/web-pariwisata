@@ -5,143 +5,174 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Website Pariwisata</title>
+    <title>Pariwisata Semarang</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Fontawesome CSS Online -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Fontawesome CSS Offline -->
     <link rel="stylesheet" href="fontawesome/all.min.css">
 
+    <!-- <link rel="stylesheet" href="css/loading.css"> -->
     <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico">
-
+    <link rel="shortcut icon" href="https://sptsmg.files.wordpress.com/2014/02/logo_ayo_wisata_ke_semarang.jpg">
+    
     <!-- Manual Styling -->
     <link rel="stylesheet" href="css/style.css">
   </head>
-  <body id="top">
+  <body>
     
-    <?php 
-    include 'components/navbar.php'
-    ?>
+    <?php
+    include 'components/navbar.php';
+    session_start();
+    if (isset($_GET['page'])) {
+        include($_GET['page'] . ".php");
+    } else {?>
+      
     
-	<div class="jumbotron">
+    <div class="jumbotron ">
         <div class="container text-center">
             <h1>SELAMAT DATANG DI WEBSITE<br>PARIWISATA SEMARANG</h1>
-            <a href="" class="btn btn-sm btn-info">Selengkapnya..</a>
         </div>
     </div>
 
-    <!-- Wisata -->
+    <!-- About Semarang -->
+    <div class="container-fluid text-center" style="padding: 50px 0;">
+      <div class="container text-center">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center mb-3">
+            <img src="https://images.unsplash.com/photo-1634991599324-cb0ee4942962?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid" alt="..." style="max-width: 20rem;">
+          </div>
+          <div class="col-md-6 text-center">
+            <h5 style="color: black;">Tentang <span><strong style="color: #grey;">Semarang</strong></span> </h5>
+            <hr class="custom-hr" style="border-color: grey; border-width: 2px; margin-top: 0; margin-bottom: 20px;">
+            <p class="content-text">
+            Kota Semarang adalah ibu kota provinsi Jawa Tengah, Indonesia. Di Semarang sendiri memiliki berbagai macam tempat wisata mulai dari <strong>Alam, Sejarah, Religi dan Kuliner</strong>. 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <?php 
-    include 'components/wisata.php'
+    include 'koneksi.php';
     ?>
-    <!-- Wisata Akhir -->
+    <section id="wisata" class="pb-4">
+      <div class="container-fluid text-center bg-dark-subtle" style="padding: 70px 0;color: white;">
+        <h5>Apa Saja Wisata di Semarang?</h5>
+        <h2>Berikut Selengkapnya!</h2>
+      </div>
+      <div class="container">
+        <div class="row mb-4 pt-4">
+          <div class="col text-center">
+            <h2>Wisata</h2>
+          </div>
+        </div>
 
+        <div class="tab-content">
+        <!-- Wisata -> Wisata Alam -->
+          <div class="tab-pane fade show active" id="nav-wisata1" role="tabpanel" aria-labelledby="wisata1">
+          <!-- baris 1 -->
+          
+          <div class="row mt-3 justify-content-center">
+            <?php 
+            $data = mysqli_query ($mysqli, "SELECT l.*,k.nama as 'kategori' FROM list l LEFT JOIN kategori k ON (l.id_kategori=k.id) ORDER BY nama DESC ");
+            while ($d = mysqli_fetch_array ($data)){
+            ?>
+            
+            <div class="card mx-2 my-2 bg-transparent" style="width: 18rem;">
+              <img src="images/<?= $d['gambar1']?>" class="card-img-top" alt="..." style="max-height:15rem; object-fit: cover; height:15rem">
+              <div class="card-body">
+                <h5 class="card-title"><?= $d['nama'] ?></h5>
+                <p class="card-text"><?= $d['kategori']; ?></p>
+                <a href="index.php?page=detail&id=<?= $d['id']  ?>" class="btn btn-secondary">Selengkapnya</a>
+              </div>
+            </div>
+            <?php 
+            }
+            ?>
+          </div>
+        </div> 
+      </div>
+    </section>
 
-    <!-- Galeri Awal -->
-	<?php 
-    include 'components/galeri.php'
-    ?>
-    <!-- Galeri Akhir -->
-
-    <!-- Lokasi Awal -->
-    <!-- <section id="lokasi" class="pb-4">
-    	<div class="container">
-    		<div class="row pt-4 mb-4">
+    <section id="galeri" class="pb-4 bg-dark-subtle">
+	    <div class="container mb-2">
+	        <div class="row pt-4 mb-4">
 	            <div class="col text-center">
-	                <h2>Lokasi</h2>
+	                <h2>Kategori</h2>
 	            </div>
 	        </div>
-	        <div class="row text-center">
-	            <div class="col-md-6">
-		            <h5>Tana Toraja</h5>
-		            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d509970.400534145!2d119.42692775610675!3d-3.0561797180325785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d9395b1758f3585%3A0x3030bfbcaf77090!2sTana%20Toraja%20Regency%2C%20South%20Sulawesi!5e0!3m2!1sen!2sid!4v1607242666318!5m2!1sen!2sid" width="540" height="405" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-	            </div>
-	            <div class="col-md-6">
-	            	<h5>Toraja Utara</h5>
-		            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d510043.4637895478!2d119.60014118846279!3d-2.898360996825392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d93c15594bf5fe7%3A0x3bd5d554371f59fa!2sNorth%20Toraja%20Regency%2C%20South%20Sulawesi!5e0!3m2!1sen!2sid!4v1607242774353!5m2!1sen!2sid" width="540" height="405" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-	            </div>
-	        </div>
-    	</div>
-    </section> -->
-    <!-- Lokasi Akhir -->
+          <div class="container text-center my-2">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="card text-bg-dark">
+                  <img src="https://images.unsplash.com/photo-1549973890-38d08b229439?q=80&w=1944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img" alt="..." style ="height:18rem; object-fit:cover; max-height: 10rem; opacity:0.7" >
+                  <div class="card-img-overlay">
+                    <h2>Alam</h2>
+                    <a href="index.php?page=kategori&id_kategori=1" class="btn btn-light">Lihat</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card text-bg-dark">
+                  <img src="https://images.unsplash.com/photo-1614157196885-b9ddd59e3f23?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img" alt="..." style ="height:18rem; object-fit:cover; max-height: 10rem; opacity:0.7" >
+                  <div class="card-img-overlay">
+                    <h2>Religi</h2>
+                    <a href="index.php?page=kategori&id_kategori=2" class="btn btn-light">Lihat</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+	    </div>
+      <div class="container text-center my-2">
+      <div class="container text-center my-2">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="card text-bg-dark">
+                  <img src="https://images.unsplash.com/photo-1651890059696-247893997e83?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img" alt="..." style ="height:18rem; object-fit:cover; max-height: 10rem; opacity:0.7" >
+                  <div class="card-img-overlay">
+                    <h2>Sejarah</h2>
+                    <a href="index.php?page=kategori&id_kategori=3" class="btn btn-light">Lihat</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card text-bg-dark">
+                  <img src="https://images.unsplash.com/photo-1577791463300-c2203c56f322?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img" alt="..." style ="height:18rem; object-fit:cover; max-height: 10rem; opacity:0.7" >
+                  <div class="card-img-overlay">
+                    <h2>Kuliner</h2>
+                    <a href="index.php?page=kategori&id_kategori=4" class="btn btn-light">Lihat</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+	    </div>
+    </section>
+    <?php } ?>
 
-    <!-- Kontak Awal -->
-    <!-- <section id="kontak" class="text-white pb-4">
-    	<div class="container">
-    		<div class="row pt-4 mb-4">
-	            <div class="col text-center">
-	                <h2>Kontak</h2>
-	            </div>
-	        </div>
-	        <div class="row">    
-	            <div id="sosmed" class="col-md-3 mb-4">
-	            	<h3>Media Sosial</h3>
-	            	<div class="row mb-2">
-	            		<div class="col">
-	            			<a href=""><i class="fab fa-fw fa-facebook fa-2x mr-2"></i></a>
-			            	<a href=""><i class="fab fa-fw fa-instagram fa-2x mr-2"></i></a>
-			            	<a href=""><i class="fab fa-fw fa-twitter fa-2x mr-2"></i></a>
-			            	<a href=""><i class="fab fa-fw fa-youtube fa-2x mr-2"></i></a>
-	            		</div>
-	            	</div>
-	            	<div class="row">
-	            		<div class="col">
-	            			<a href=""><i class="fab fa-fw fa-whatsapp fa-2x mr-2"></i></a>
-			            	<a href=""><i class="fab fa-fw fa-line fa-2x mr-2"></i></a>
-			            	<a href=""><i class="fab fa-fw fa-telegram fa-2x mr-2"></i></a>
-			            	<a href=""><i class="fas fa-fw fa-envelope fa-2x mr-2"></i></a>
-	            		</div>
-	            	</div>   	
-	            </div>
-	            <div id="tentang" class="col-md-3 mb-3">
-	            	<h3>Tentang</h3>
-	            	<p><a href="#wisata"><i class="fas fa-fw fa-map-marked-alt"></i> Wisata</a></p>
-	            	<p><a href="#galeri"><i class="fas fa-fw fa-images"></i> Galeri</a></p>
-	            	<p><a href="#lokasi"><i class="fas fa-fw fa-map-marker-alt"></i> Lokasi</a></p>
-	            </div>	 
-	            <div class="col-md-6">
-	                <h3>Hubungi Kami</h3>
-	            	<form action="" class="mt-2">
-	                    <div class="form-group">
-	                        <input id="nama" class="form-control" type="text" placeholder="Nama">
-	                    </div>
-	                    <div class="form-group">
-	                        <input id="email" class="form-control" type="text" placeholder="Email">
-	                    </div>
-	                    <div class="form-group">
-	                        <input id="subjek" class="form-control" type="text" placeholder="Subjek">
-	                    </div>
-	                    <div class="form-group">
-	                        <textarea name="pesan" id="pesan" rows="5" class="form-control" placeholder="Masukkan Pesan"></textarea>
-	                    </div>
-	                    <div class="form-group">
-	                        <button type="button" class="btn btn-primary">Kirim</button>
-	                    </div>
-	                </form>
-	            </div>
-	        </div>
-    	</div>
-    </section> -->
-    <!-- Kontak Akhir -->
-
+    
     <!-- Copyright -->
     <?php 
-    include 'components/footer.php'
+      include 'components/footer.php'
     ?>
-
+  </div>
     <!-- <a href="#" class="backToTop"></a> -->
     <a id="backtotop" href="#top"><img src="images/angle-up.svg" alt=""></a>
 
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="js/jquery-3.5.1.slim.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/loading.js"></script>
     <!-- Fontawesome JS Online-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Fontawesome JS Offline -->
     <script src="fontawesome/all.min.js"></script>
     <!-- My Script -->
